@@ -62,7 +62,7 @@
 <meta property="og:site_name" content="鱼之乐">
 <meta property="og:description" content="安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&amp;apos;ctrl + c&amp;apos;关闭server）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-09T01:25:53.263Z">
+<meta property="og:updated_time" content="2019-08-09T01:32:21.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo 使用初步">
 <meta name="twitter:description" content="安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&amp;apos;ctrl + c&amp;apos;关闭server）">
@@ -305,7 +305,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-09 09:25:53" itemprop="dateModified" datetime="2019-08-09T09:25:53+08:00">2019-08-09</time>
+                <time title="修改时间：2019-08-09 09:32:21" itemprop="dateModified" datetime="2019-08-09T09:32:21+08:00">2019-08-09</time>
               </span>
             
           
@@ -363,7 +363,9 @@ $ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
 modernist
 $ git clone https://github.com/heroicyang/hexo-theme-modernist.git themes/modernist
 jacman
-$ git clone https://github.com/cnfeat/cnfeat.git themes/jacman</code></pre><p>修改配置参照以下，推荐yilia。</p>
+$ git clone https://github.com/cnfeat/cnfeat.git themes/jacman
+next
+$ git clone https://github.com/theme-next/hexo-theme-next </code></pre><p>修改配置参照以下，综合添加评论的复杂度，推荐next+valine。</p>
 <h1 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h1><p>修改配置文件_config.yml</p>
 <pre><code># Site
 title: 鱼之乐
@@ -379,7 +381,7 @@ timezone:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: yilia    #指定使用的主题，主题放在/themes文件夹下
+theme: next    #指定使用的主题，主题放在/themes文件夹下
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
