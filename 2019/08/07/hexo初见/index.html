@@ -54,28 +54,33 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鱼之乐">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&amp;apos;ctrl + c&amp;apos;关闭server）">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo 使用初步">
+<meta property="og:url" content="http://yoursite.com/2019/08/07/hexo初见/index.html">
 <meta property="og:site_name" content="鱼之乐">
+<meta property="og:description" content="安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&amp;apos;ctrl + c&amp;apos;关闭server）">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-09T01:25:53.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鱼之乐">
-  <link rel="canonical" href="http://yoursite.com/">
+<meta name="twitter:title" content="hexo 使用初步">
+<meta name="twitter:description" content="安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&amp;apos;ctrl + c&amp;apos;关闭server）">
+  <link rel="canonical" href="http://yoursite.com/2019/08/07/hexo初见/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>鱼之乐</title>
+  <title>hexo 使用初步 | 鱼之乐</title>
   
 
 
@@ -247,10 +252,11 @@
         <div class="content-wrap">
             
 
-          <div id="content" class="content page-home">
+          <div id="content" class="content page-post-detail">
             
-  <section id="posts" class="posts-expand">
-      
+
+  <div id="posts" class="posts-expand">
+    
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
@@ -271,9 +277,8 @@
       <header class="post-header">
 
         
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2019/08/07/hexo初见/" class="post-title-link" itemprop="url">hexo 使用初步</a>
+          <h1 class="post-title" itemprop="name headline">hexo 使用初步
+
             
           </h1>
         
@@ -345,23 +350,112 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>npm install -g hexo</code></pre><h1 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h1><p>选择新建项目所在文件夹，执行以下命令</p>
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>npm install -g hexo</code></pre><h1 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h1><p>选择新建项目所在文件夹，执行以下命令</p>
 <pre><code>hexo init myhexo #初始化项目文档
 cd myhexo
 npm install #安装依赖
 hexo generate #生成静态页面至public目录
-hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）</code></pre>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/08/07/hexo初见/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
+hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）</code></pre><a id="more"></a>
+
+<h1 id="主题变更"><a href="#主题变更" class="headerlink" title="主题变更"></a>主题变更</h1><p>将目标主题clone到/themes文件夹下</p>
+<pre><code>yilia
+$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
+modernist
+$ git clone https://github.com/heroicyang/hexo-theme-modernist.git themes/modernist
+jacman
+$ git clone https://github.com/cnfeat/cnfeat.git themes/jacman</code></pre><p>修改配置参照以下，推荐yilia。</p>
+<h1 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h1><p>修改配置文件_config.yml</p>
+<pre><code># Site
+title: 鱼之乐
+subtitle: 子非鱼安知鱼之乐
+description:
+keywords:
+author: 鱼之乐
+language:
+timezone:
+
+......
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: yilia    #指定使用的主题，主题放在/themes文件夹下
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+    type: git   
+        repo: https://github.com/hmilywb/hmilywb.github.io
+        branch: master</code></pre><h2 id="代码上传"><a href="#代码上传" class="headerlink" title="代码上传"></a>代码上传</h2><p>必要条件：</p>
+<ol>
+<li><p>配置SSH KEY，相当于用户名密码</p>
+</li>
+<li><p>配置_config.yml中有关deploy的部分，已在上文<code>项目配置</code>搞定</p>
+</li>
+<li><p>安装插件<code>hexo-deployer-git</code> </p>
+<p> npm install hexo-deployer-git –save</p>
+</li>
+</ol>
+<p>正常代码上传可通过</p>
+<pre><code>hexo d </code></pre><p><strong>注：</strong> 此时可能会报错，显示</p>
+<pre><code>Fatal: HttpRequestException encountered.</code></pre><p>这是因为Github禁用了TLS v1.0 and v1.1这种弱加密标准，需要手动更新Windows的git凭证管理器，可从<a href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/" target="_blank" rel="noopener">Github官方</a><br>下载较新版本安装即可。</p>
+<h2 id="hexo-常用命令-amp-简写"><a href="#hexo-常用命令-amp-简写" class="headerlink" title="hexo 常用命令&amp;简写"></a>hexo 常用命令&amp;简写</h2><pre><code>hexo new &quot;postName&quot; #新建文章
+hexo new page &quot;pageName&quot; #新建页面
+hexo generate #生成静态页面至public目录
+hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）
+hexo deploy #部署到GitHub
+hexo help  # 查看帮助
+hexo version  #查看Hexo的版本</code></pre><p>缩写：</p>
+<pre><code>hexo n == hexo new
+hexo g == hexo generate
+hexo s == hexo server
+hexo d == hexo deploy</code></pre><p>组合命令：</p>
+<pre><code>hexo s -g #生成并本地预览
+hexo d -g #生成并上传</code></pre><h2 id="写博客"><a href="#写博客" class="headerlink" title="写博客"></a>写博客</h2><p>定位到hexo根目录，执行命令：</p>
+<pre><code>hexo new &apos;my-first-page&apos;</code></pre><p>自动在_posts下生成相关md文件<code>my-first-page.md</code></p>
+<p>这个命令的好处是帮我们自动生成了默认内容，打开这个文件即可开始写博客了，默认生成如下内容：</p>
+<pre><code>title: postName #文章页面上的显示名称，一般是中文
+date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改
+categories: 默认分类 #分类
+tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格
+description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面</code></pre><h2 id="菜单设置"><a href="#菜单设置" class="headerlink" title="菜单设置"></a>菜单设置</h2><p>菜单包括：首页、归档、分类、标签、关于等等，默认的只有首页和归档两个，可打开<code>主题配置文件</code>找到Menu Settings</p>
+<pre><code>menu:
+home: / || home                          //首页
+archives: /archives/ || archive          //归档
+categories: /categories/ || th           //分类
+tags: /tags/ || tags                     //标签
+about: /about/ || user                   //关于
+#schedule: /schedule/ || calendar        //日程表
+#sitemap: /sitemap.xml || sitemap        //站点地图
+#commonweal: /404/ || heartbeat          //公益404</code></pre><p>以archives: /archives/ || archive为例：<br>|| 之前的/archives/表示标题“归档”，关于标题的格式可以去themes/next/languages/zh-Hans.yml中参考或修改<br>||之后的archive表示图标，可以去Font Awesome中查看或修改，Next主题所有的图标都来自Font Awesome。</p>
+<p>##　Next主题样式设置</p>
+<p>Next主题有4种风格可供选择，打开<code>主题配置文件</code>找到Scheme Settings</p>
+<pre><code># Schemes
+# scheme: Muse
+# scheme: Mist
+# scheme: Pisces
+scheme: Gemini</code></pre><p>4种风格大同小异，目前使用的是Gemini风格。</p>
+<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><p>安装<code>hexo-generator-searchdb</code>插件</p>
+<pre><code>npm install hexo-generator-searchdb --save</code></pre><p>打开<code>站点配置文件</code>找到Extensions，在下面添加</p>
+<pre><code># 搜索
+search:
+path: search.xml
+field: post
+format: html
+limit: 10000</code></pre><p>打开<code>主题配置文件</code>找到<code>Local search</code>，将enable设置为true</p>
+<h2 id="添加评论功能"><a href="#添加评论功能" class="headerlink" title="添加评论功能"></a>添加评论功能</h2><p>推荐使用valine，首先注册<a href="https://leancloud.app/" target="_blank" rel="noopener">valine 国际版</a></p>
+<ol>
+<li>创建一个开发版应用（免费）</li>
+<li>在LeanCloud-设置-安全中心，把除数据存储其他选项都关闭，安全域名中添加域名</li>
+<li>在LeanCloud-存储，添加两个class，分别为Comment和Counter，<code>无限制</code></li>
+<li>在LeanCloud-设置-应用key，获取appid和appkey，以备后用</li>
+</ol>
+<p>打开<code>主题配置文件</code>（即next主题中的_config.yml）,找到valine的配置</p>
+<pre><code>valine:
+    enable: true 
+    appid: xxxxx # Your leancloud application appid
+    appkey: xxxxx # Your leancloud application appkey</code></pre><p>hexo重新<code>generate</code>和<code>server</code>，最好<code>clean</code>一下。</p>
+
     </div>
 
     
@@ -369,7 +463,12 @@ hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;�
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
+          
+        
+        <div class="post-tags">
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+        </div>
     </footer>
   </div>
   
@@ -377,14 +476,15 @@ hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;�
   
   </article>
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
+
 
         </div>
           
@@ -399,8 +499,17 @@ hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;�
 
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
 
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -452,6 +561,23 @@ hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;�
 
         </div>
       </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目初始化"><span class="nav-number">2.</span> <span class="nav-text">项目初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主题变更"><span class="nav-number">3.</span> <span class="nav-text">主题变更</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目配置"><span class="nav-number">4.</span> <span class="nav-text">项目配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码上传"><span class="nav-number">4.1.</span> <span class="nav-text">代码上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-常用命令-amp-简写"><span class="nav-number">4.2.</span> <span class="nav-text">hexo 常用命令&amp;简写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写博客"><span class="nav-number">4.3.</span> <span class="nav-text">写博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#菜单设置"><span class="nav-number">4.4.</span> <span class="nav-text">菜单设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加搜索功能"><span class="nav-number">4.5.</span> <span class="nav-text">添加搜索功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加评论功能"><span class="nav-number">4.6.</span> <span class="nav-text">添加评论功能</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
     </div>
   </aside>
@@ -551,6 +677,10 @@ hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;�
 
 
   
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
     
 
 <script>
