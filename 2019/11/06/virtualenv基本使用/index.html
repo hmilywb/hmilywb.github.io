@@ -54,21 +54,19 @@
   };
 </script>
 
-  <meta name="description" content="标题# 一级标题，一般一级标题下自带分割线   ## 二级标题   ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题列表有序列表-序号可随便填写，并不影响最终序列    标题1   标题2   标题3">
-<meta name="keywords" content="markdown">
+  <meta name="description" content="简介建立一个专属于项目的虚拟python环境，实际应用中可用virtualenv来保持一个干净的互不干扰的运行环境。 场景： 如果要同时开发多个应用程序，那这些应用程序都会共用一个Python环境，但如果应用A需要jinja 2.7，而应用B需要jinja 2.6怎么办？这种情况下，每个应用可能需要各自拥有一套“独立”的Python运行环境，virtualenv应运而生。 安装pip instal">
+<meta name="keywords" content="virtualenv">
 <meta property="og:type" content="article">
-<meta property="og:title" content="markdown 语法初步">
-<meta property="og:url" content="http://yoursite.com/2019/08/07/markdown语法初步/index.html">
+<meta property="og:title" content="virtualenv基本使用">
+<meta property="og:url" content="http://yoursite.com/2019/11/06/virtualenv基本使用/index.html">
 <meta property="og:site_name" content="鱼之乐">
-<meta property="og:description" content="标题# 一级标题，一般一级标题下自带分割线   ## 二级标题   ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题列表有序列表-序号可随便填写，并不影响最终序列    标题1   标题2   标题3">
+<meta property="og:description" content="简介建立一个专属于项目的虚拟python环境，实际应用中可用virtualenv来保持一个干净的互不干扰的运行环境。 场景： 如果要同时开发多个应用程序，那这些应用程序都会共用一个Python环境，但如果应用A需要jinja 2.7，而应用B需要jinja 2.6怎么办？这种情况下，每个应用可能需要各自拥有一套“独立”的Python运行环境，virtualenv应运而生。 安装pip instal">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://s12.sinaimg.cn/mw690/006XsKibzy7nkVRNkEj3b">
-<meta property="og:updated_time" content="2019-11-06T06:51:04.412Z">
+<meta property="og:updated_time" content="2019-11-06T06:50:22.652Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="markdown 语法初步">
-<meta name="twitter:description" content="标题# 一级标题，一般一级标题下自带分割线   ## 二级标题   ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题列表有序列表-序号可随便填写，并不影响最终序列    标题1   标题2   标题3">
-<meta name="twitter:image" content="http://s12.sinaimg.cn/mw690/006XsKibzy7nkVRNkEj3b">
-  <link rel="canonical" href="http://yoursite.com/2019/08/07/markdown语法初步/">
+<meta name="twitter:title" content="virtualenv基本使用">
+<meta name="twitter:description" content="简介建立一个专属于项目的虚拟python环境，实际应用中可用virtualenv来保持一个干净的互不干扰的运行环境。 场景： 如果要同时开发多个应用程序，那这些应用程序都会共用一个Python环境，但如果应用A需要jinja 2.7，而应用B需要jinja 2.6怎么办？这种情况下，每个应用可能需要各自拥有一套“独立”的Python运行环境，virtualenv应运而生。 安装pip instal">
+  <link rel="canonical" href="http://yoursite.com/2019/11/06/virtualenv基本使用/">
 
 
 <script id="page-configurations">
@@ -82,7 +80,7 @@
   };
 </script>
 
-  <title>markdown 语法初步 | 鱼之乐</title>
+  <title>virtualenv基本使用 | 鱼之乐</title>
   
 
 
@@ -232,7 +230,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/markdown语法初步/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/virtualenv基本使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="鱼之乐">
@@ -246,7 +244,7 @@
       <header class="post-header">
 
         
-          <h1 class="post-title" itemprop="name headline">markdown 语法初步
+          <h1 class="post-title" itemprop="name headline">virtualenv基本使用
 
             
           </h1>
@@ -263,19 +261,11 @@
                 
               
 
-              <time title="创建时间：2019-08-07 09:31:21" itemprop="dateCreated datePublished" datetime="2019-08-07T09:31:21+08:00">2019-08-07</time>
+              <time title="创建时间：2019-11-06 11:31:21 / 修改时间：14:50:22" itemprop="dateCreated datePublished" datetime="2019-11-06T11:31:21+08:00">2019-11-06</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-06 14:51:04" itemprop="dateModified" datetime="2019-11-06T14:51:04+08:00">2019-11-06</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -302,8 +292,8 @@
     </span>
     <span class="post-meta-item-text">评论数：</span>
   
-    <a href="/2019/08/07/markdown语法初步/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/07/markdown语法初步/" itemprop="commentCount"></span>
+    <a href="/2019/11/06/virtualenv基本使用/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/06/virtualenv基本使用/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -319,76 +309,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><pre><code># 一级标题，一般一级标题下自带分割线  
-## 二级标题  
-### 三级标题
-#### 四级标题
-##### 五级标题
-###### 六级标题</code></pre><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>有序列表-<code>序号可随便填写，并不影响最终序列</code>  </p>
-<ol>
-<li>标题1  </li>
-<li>标题2  </li>
-<li>标题3  </li>
-</ol>
-<a id="more"></a>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>建立一个专属于项目的虚拟python环境，实际应用中可用virtualenv来保持一个干净的互不干扰的运行环境。</p>
+<p>场景：</p>
+<p>如果要同时开发多个应用程序，那这些应用程序都会共用一个Python环境，但如果应用A需要jinja 2.7，而应用B需要jinja 2.6怎么办？这种情况下，每个应用可能需要各自拥有一套“独立”的Python运行环境，virtualenv应运而生。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>pip install virtualenv</code></pre><a id="more"></a>
 
-<p>无序列表  </p>
-<ul>
-<li>标题1  </li>
-<li>标题2  </li>
-<li>标题3  </li>
-</ul>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
-<p>我是引用文本1</p>
-<blockquote>
-<p>我是嵌套的引用文本1<br>我是嵌套的引用文本2</p>
-<blockquote>
-<ol>
-<li>在嵌套一层1   </li>
-<li>在嵌套一层2</li>
-</ol>
-</blockquote>
-<p>我是嵌套的引用文本3</p>
-</blockquote>
-<p>我是引用文本2</p>
-</blockquote>
-<h2 id="文字的样式"><a href="#文字的样式" class="headerlink" title="文字的样式"></a>文字的样式</h2><p><strong>加粗</strong><br><em>倾斜</em><br><strong><em>删除线</em></strong><br><u>下划线</u>  <code>markdown原生并不支持下划线，可通过html标签实现</code></p>
-<h2 id="链接与图片"><a href="#链接与图片" class="headerlink" title="链接与图片"></a>链接与图片</h2><p><a href="http://www.baidu.com" target="_blank" rel="noopener">baidu</a><br><img src="http://s12.sinaimg.cn/mw690/006XsKibzy7nkVRNkEj3b" alt="外部图片"></p>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><p>默认的对齐方式为：左对齐方式。</p>
-<table>
-<thead>
-<tr>
-<th align="left">列名1</th>
-<th align="center">列名2</th>
-<th align="right">列名3</th>
-<th>列名4</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><a href="https://www.baidu.com" target="_blank" rel="noopener">值1</a></td>
-<td align="center">值1</td>
-<td align="right">值2</td>
-<td>值x</td>
-</tr>
-<tr>
-<td align="left"><a href="Docker使用.md">值1</a></td>
-<td align="center">值1</td>
-<td align="right">值2</td>
-<td>值x</td>
-</tr>
-<tr>
-<td align="left">值1</td>
-<td align="center">值1</td>
-<td align="right">值2</td>
-<td>值x</td>
-</tr>
-</tbody></table>
-<h2 id="关键字、代码块、换行、分割线"><a href="#关键字、代码块、换行、分割线" class="headerlink" title="关键字、代码块、换行、分割线"></a>关键字、代码块、换行、分割线</h2><p><code>关键字</code>  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br></pre></td></tr></table></figure>
-
-<pre><code>sdfsdfs  </code></pre><p><code>换行</code>可插入一个空行，也可在本行末尾插入两个空格<br>任意连续三个<code>---</code> <code>+++</code>均可实现分割线</p>
-<hr>
-<hr>
+<p>测试是否安装成功：</p>
+<pre><code>virtualenv --version</code></pre><h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><p><strong>1.创建虚拟环境</strong></p>
+<pre><code>virtualenv -p c:\Python36\python.exe venv</code></pre><p>说明： -p是指定python的版本（需要带上路径）(可选)，venv就是虚拟的环境变量（目录名字）。</p>
+<p>如不需要指定python版本，直接使用命令：</p>
+<pre><code>virtualenv  venv</code></pre><p>将使用系统默认python版本。</p>
+<p><strong>2.激活虚拟环境</strong></p>
+<p>需进入venv文件夹的script目录，执行activate命令</p>
+<pre><code>activate</code></pre><p>此刻起，将使用venv虚拟环境，pip安装的包也会将会放在venv文件夹中，与全局安装的Python隔绝开。</p>
+<p><strong>3.退出虚拟环境</strong></p>
+<p>使用deactivate命令即可退出当前虚拟环境</p>
+<pre><code>deactivate</code></pre><p><strong>4.删除虚拟环境</strong></p>
+<p>只需删除对应的文件夹即可。</p>
+<h2 id="附注"><a href="#附注" class="headerlink" title="附注"></a>附注</h2><p>可用pip freeze查看当前安装各个包的版本信息</p>
+<pre><code>pip freeze</code></pre><p>同时，可使用：</p>
+<pre><code>pip freeze &gt; requirements.txt</code></pre><p>创建一个requirements.txt文件，包含当前环境中所有包及其版本的列表。</p>
+<p>可使用此文件帮助其他其他开发者重新创建一致的环境，以便以后安装相同版本的包环境。</p>
+<pre><code>pip install -r requirements.txt</code></pre><p>确保安装、部署和开发者之间的一致性。</p>
 
     </div>
 
@@ -400,13 +342,13 @@
           
         
         <div class="post-tags">
-            <a href="/tags/markdown/" rel="tag"># markdown</a>
+            <a href="/tags/virtualenv/" rel="tag"># virtualenv</a>
           
         </div>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-              <a href="/2019/08/06/github配置/" rel="next" title="github配置">
-                <i class="fa fa-chevron-left"></i> github配置
+              <a href="/2019/09/11/Teadocs初见/" rel="next" title="Teadocs 使用初步">
+                <i class="fa fa-chevron-left"></i> Teadocs 使用初步
               </a>
             
           </div>
@@ -414,8 +356,8 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-              <a href="/2019/08/07/hexo初见/" rel="prev" title="hexo 使用初步">
-                hexo 使用初步 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/06/wagtail-1 - 背景及初始配置/" rel="prev" title="wagtail-1 - 背景及初始配置">
+                wagtail-1 - 背景及初始配置 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +492,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#标题"><span class="nav-number">1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列表"><span class="nav-number">2.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文字的样式"><span class="nav-number">4.</span> <span class="nav-text">文字的样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链接与图片"><span class="nav-number">5.</span> <span class="nav-text">链接与图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表格"><span class="nav-number">6.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字、代码块、换行、分割线"><span class="nav-number">7.</span> <span class="nav-text">关键字、代码块、换行、分割线</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单使用"><span class="nav-number">3.</span> <span class="nav-text">简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附注"><span class="nav-number">4.</span> <span class="nav-text">附注</span></a></li></ol></div>
             
 
           </div>
