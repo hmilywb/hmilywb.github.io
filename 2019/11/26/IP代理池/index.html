@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+<meta name="keywords" content="proxy pool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP代理池">
+<meta property="og:url" content="http://yoursite.com/2019/11/26/IP代理池/index.html">
+<meta property="og:site_name" content="鱼之乐">
+<meta property="og:description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-26T09:22:09.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IP代理池">
+<meta name="twitter:description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+  <link rel="canonical" href="http://yoursite.com/2019/11/26/IP代理池/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>IP代理池 | 鱼之乐</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">鱼之乐</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">子非鱼安知鱼之乐</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/26/IP代理池/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="鱼之乐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鱼之乐">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">IP代理池
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-26 11:31:21 / 修改时间：17:22:09" itemprop="dateCreated datePublished" datetime="2019-11-26T11:31:21+08:00">2019-11-26</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="fa fa-comment-o"></i>
+    </span>
+    <span class="post-meta-item-text">评论数：</span>
+  
+    <a href="/2019/11/26/IP代理池/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/26/IP代理池/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。</p>
+<p><strong>存储模块</strong>：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。</p>
+<p><strong>爬取模块</strong>：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。</p>
+<p><strong>测试模块</strong>：负责对代理池中代理的可用性进行测试，设置一个测试URL，然后使用代理去请求，根据响应的状态码判断代理是否可用。</p>
+<p><strong>接口模块</strong>：提供给爬虫一个接口，返回代理池的接口功能。</p>
+<a id="more"></a>
+
+<h2 id="下载-amp-安装"><a href="#下载-amp-安装" class="headerlink" title="下载&amp;安装"></a>下载&amp;安装</h2><p>Redis：<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">下载地址</a>，可直接下载Windows安装文件，安装时选择注册系统服务，简单方便。</p>
+<p>Redis Desktop Manager：<a href="http://www.downza.cn/soft/210734.html" target="_blank" rel="noopener">下载地址</a></p>
+<p>项目：<a href="https://github.com/jhao104/proxy_pool/archive/master.zip" target="_blank" rel="noopener">下载地址</a>，解压到指定文件夹。</p>
+<p>安装所需依赖包</p>
+<pre><code>pip install -r requirements.txt</code></pre><p>其中，lxml==3.7.2可能无法正常安装，可在requirements.txt将版本信息去除，安装最新的lxml。</p>
+<p>如有git工具，亦可通过以下代码获取：</p>
+<pre><code>git clone git@github.com:jhao104/proxy_pool.git</code></pre><p><strong>注</strong>：推荐使用virtualenv工具建立独立项目空间。</p>
+<h2 id="配置-amp-启动"><a href="#配置-amp-启动" class="headerlink" title="配置&amp;启动"></a>配置&amp;启动</h2><p>配置Config/setting.py:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># Config/setting.py 为项目配置文件</span><br><span class="line"></span><br><span class="line"># 配置DB     </span><br><span class="line">DATABASES = &#123;</span><br><span class="line">    &quot;default&quot;: &#123;</span><br><span class="line">        &quot;TYPE&quot;: &quot;REDIS&quot;,</span><br><span class="line">        &quot;HOST&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">        &quot;PORT&quot;: 6379,</span><br><span class="line">        &quot;NAME&quot;: &quot;proxy&quot;,</span><br><span class="line">        &quot;PASSWORD&quot;: &quot;&quot; </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 配置 ProxyGetter</span><br><span class="line"></span><br><span class="line">PROXY_GETTER = [</span><br><span class="line">    &quot;freeProxy01&quot;,      # 这里是启用的代理抓取函数名，可在ProxyGetter/getFreeProxy.py 扩展</span><br><span class="line">    &quot;freeProxy02&quot;,</span><br><span class="line">    ....</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 配置 API服务</span><br><span class="line"></span><br><span class="line">SERVER_API = &#123;</span><br><span class="line">    &quot;HOST&quot;: &quot;0.0.0.0&quot;,  # 监听ip, 0.0.0.0 监听所有IP</span><br><span class="line">    &quot;PORT&quot;: 5010        # 监听端口</span><br><span class="line">&#125;</span><br><span class="line">       </span><br><span class="line"># 上面配置启动后，代理池访问地址为 http://127.0.0.1:5010</span><br></pre></td></tr></table></figure>
+
+<p>启动程序分为schedule调度程序和webserverApi服务</p>
+<p>首先启动调度程序</p>
+<pre><code>python proxyPool.py schedule</code></pre><p>然后启动webApi服务</p>
+<pre><code>python proxyPool.py webserver</code></pre><p>启动过几分钟后即可看到抓取到的代理IP，可直接到数据库中查看，也可以通过api访问<a href="http://127.0.0.1:5010" target="_blank" rel="noopener">http://127.0.0.1:5010</a> 查看。</p>
+<p>Web Api</p>
+<table>
+<thead>
+<tr>
+<th align="left">api</th>
+<th align="center">method</th>
+<th align="center">Description</th>
+<th>arg</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">/</td>
+<td align="center">GET</td>
+<td align="center">api介绍</td>
+<td>None</td>
+</tr>
+<tr>
+<td align="left">/get</td>
+<td align="center">GET</td>
+<td align="center">随机获取一个代理</td>
+<td>None</td>
+</tr>
+<tr>
+<td align="left">/get_all</td>
+<td align="center">GET</td>
+<td align="center">获取所有代理</td>
+<td>None</td>
+</tr>
+<tr>
+<td align="left">/get_status</td>
+<td align="center">GET</td>
+<td align="center">查看代理数量</td>
+<td>None</td>
+</tr>
+<tr>
+<td align="left">/delete</td>
+<td align="center">GET</td>
+<td align="center">删除代理</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>项目默认包含几个免费的代理获取方法，亦可通过以下方式扩展新的代理：</p>
+<p>首先在GetFreeProxy类中添加获取代理的静态方法，需要以生成器(yield)形式返回host:ip格式的代理，例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class GetFreeProxy(object):</span><br><span class="line">    # ....</span><br><span class="line"></span><br><span class="line">    # 你自己的方法</span><br><span class="line">    @staticmethod</span><br><span class="line">    def freeProxyCustom():  # 命名不和已有重复即可</span><br><span class="line"></span><br><span class="line">        # 通过某网站或者某接口或某数据库获取代理 任意你喜欢的姿势都行</span><br><span class="line">        # 假设你拿到了一个代理列表</span><br><span class="line">        proxies = [&quot;139.129.166.68:3128&quot;, &quot;139.129.166.61:3128&quot;, ...]</span><br><span class="line">        for proxy in proxies:</span><br><span class="line">            yield proxy</span><br><span class="line">        # 确保每个proxy都是 host:ip正确的格式就行</span><br></pre></td></tr></table></figure>
+
+<p>添加好方法后，修改Config/setting.py文件中的PROXY_GETTER项，在PROXY_GETTER下添加自定义的方法的名字:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PROXY_GETTER = [</span><br><span class="line">    &quot;freeProxy01&quot;,    </span><br><span class="line">    &quot;freeProxy02&quot;,</span><br><span class="line">    ....</span><br><span class="line">    &quot;freeProxyCustom&quot;  #  # 确保名字和你添加方法名字一致</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>ProxySchedule会每隔一段时间抓取一次代理，下次抓取时会自动识别调用你定义的方法。</p>
+<h2 id="可用代理列表"><a href="#可用代理列表" class="headerlink" title="可用代理列表"></a>可用代理列表</h2><p>目前实现的采集免费代理网站有</p>
+<table>
+<thead>
+<tr>
+<th align="left">厂商名称</th>
+<th align="center">状态</th>
+<th align="center">更新速度</th>
+<th align="center">可用率</th>
+<th align="center">是否被墙</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">无忧代理</td>
+<td align="center">可用</td>
+<td align="center">几分钟一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.data5u.com/free/index.html" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">66代理</td>
+<td align="center">可用</td>
+<td align="center">更新很慢</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.66ip.cn/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">西刺代理</td>
+<td align="center">可用</td>
+<td align="center">几分钟一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.xicidaili.com/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">全网代理</td>
+<td align="center">可用</td>
+<td align="center">几分钟一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.goubanjia.com/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">快代理</td>
+<td align="center">可用</td>
+<td align="center">几分钟一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="https://www.kuaidaili.com/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">云代理</td>
+<td align="center">可用</td>
+<td align="center">几分钟一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.ip3366.net/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">IP海</td>
+<td align="center">可用</td>
+<td align="center">几小时一次</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://www.iphai.com/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+<tr>
+<td align="left">免费IP代理库</td>
+<td align="center">可用</td>
+<td align="center">快</td>
+<td align="center">*</td>
+<td align="center">否</td>
+<td><a href="http://ip.jiangxianli.com/" target="_blank" rel="noopener">地址</a></td>
+</tr>
+</tbody></table>
+<p><strong>注</strong>：已去除无免费和被墙的代理网站。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/proxy-pool/" rel="tag"># proxy pool</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/2019/11/18/wagtail-3 - 示例网站/" rel="next" title="wagtail-3 - 示例网站">
+                <i class="fa fa-chevron-left"></i> wagtail-3 - 示例网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.jpg"
+      alt="鱼之乐">
+  <p class="site-author-name" itemprop="name">鱼之乐</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载-amp-安装"><span class="nav-number">2.</span> <span class="nav-text">下载&amp;安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-amp-启动"><span class="nav-number">3.</span> <span class="nav-text">配置&amp;启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可用代理列表"><span class="nav-number">5.</span> <span class="nav-text">可用代理列表</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">鱼之乐</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+
+<script>
+NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.3.9/dist/Valine.min.js', function() {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'mIurV7uFOMOsJATnr1Jl8nDF-MdYXbMMI',
+    appKey: 'UaWiXs6KzlY3Je9Y6FM6SKji',
+    placeholder: '感谢您的真知灼见',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

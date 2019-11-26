@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[IP代理池]]></title>
+    <url>%2F2019%2F11%2F26%2FIP%E4%BB%A3%E7%90%86%E6%B1%A0%2F</url>
+    <content type="text"><![CDATA[简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试，设置一个测试URL，然后使用代理去请求，根据响应的状态码判断代理是否可用。 接口模块：提供给爬虫一个接口，返回代理池的接口功能。 下载&amp;安装Redis：下载地址，可直接下载Windows安装文件，安装时选择注册系统服务，简单方便。 Redis Desktop Manager：下载地址 项目：下载地址，解压到指定文件夹。 安装所需依赖包 pip install -r requirements.txt其中，lxml==3.7.2可能无法正常安装，可在requirements.txt将版本信息去除，安装最新的lxml。 如有git工具，亦可通过以下代码获取： git clone git@github.com:jhao104/proxy_pool.git注：推荐使用virtualenv工具建立独立项目空间。 配置&amp;启动配置Config/setting.py: 1234567891011121314151617181920212223242526272829303132# Config/setting.py 为项目配置文件# 配置DB DATABASES = &#123; &quot;default&quot;: &#123; &quot;TYPE&quot;: &quot;REDIS&quot;, &quot;HOST&quot;: &quot;127.0.0.1&quot;, &quot;PORT&quot;: 6379, &quot;NAME&quot;: &quot;proxy&quot;, &quot;PASSWORD&quot;: &quot;&quot; &#125;&#125;# 配置 ProxyGetterPROXY_GETTER = [ &quot;freeProxy01&quot;, # 这里是启用的代理抓取函数名，可在ProxyGetter/getFreeProxy.py 扩展 &quot;freeProxy02&quot;, ....]# 配置 API服务SERVER_API = &#123; &quot;HOST&quot;: &quot;0.0.0.0&quot;, # 监听ip, 0.0.0.0 监听所有IP &quot;PORT&quot;: 5010 # 监听端口&#125; # 上面配置启动后，代理池访问地址为 http://127.0.0.1:5010 启动程序分为schedule调度程序和webserverApi服务 首先启动调度程序 python proxyPool.py schedule然后启动webApi服务 python proxyPool.py webserver启动过几分钟后即可看到抓取到的代理IP，可直接到数据库中查看，也可以通过api访问http://127.0.0.1:5010 查看。 Web Api api method Description arg / GET api介绍 None /get GET 随机获取一个代理 None /get_all GET 获取所有代理 None /get_status GET 查看代理数量 None /delete GET 删除代理 None 扩展项目默认包含几个免费的代理获取方法，亦可通过以下方式扩展新的代理： 首先在GetFreeProxy类中添加获取代理的静态方法，需要以生成器(yield)形式返回host:ip格式的代理，例如: 12345678910111213class GetFreeProxy(object): # .... # 你自己的方法 @staticmethod def freeProxyCustom(): # 命名不和已有重复即可 # 通过某网站或者某接口或某数据库获取代理 任意你喜欢的姿势都行 # 假设你拿到了一个代理列表 proxies = [&quot;139.129.166.68:3128&quot;, &quot;139.129.166.61:3128&quot;, ...] for proxy in proxies: yield proxy # 确保每个proxy都是 host:ip正确的格式就行 添加好方法后，修改Config/setting.py文件中的PROXY_GETTER项，在PROXY_GETTER下添加自定义的方法的名字: 123456PROXY_GETTER = [ &quot;freeProxy01&quot;, &quot;freeProxy02&quot;, .... &quot;freeProxyCustom&quot; # # 确保名字和你添加方法名字一致] ProxySchedule会每隔一段时间抓取一次代理，下次抓取时会自动识别调用你定义的方法。 可用代理列表目前实现的采集免费代理网站有 厂商名称 状态 更新速度 可用率 是否被墙 地址 无忧代理 可用 几分钟一次 * 否 地址 66代理 可用 更新很慢 * 否 地址 西刺代理 可用 几分钟一次 * 否 地址 全网代理 可用 几分钟一次 * 否 地址 快代理 可用 几分钟一次 * 否 地址 云代理 可用 几分钟一次 * 否 地址 IP海 可用 几小时一次 * 否 地址 免费IP代理库 可用 快 * 否 地址 注：已去除无免费和被墙的代理网站。]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>proxy pool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[wagtail-3 - 示例网站]]></title>
     <url>%2F2019%2F11%2F18%2Fwagtail-3%20-%20%E7%A4%BA%E4%BE%8B%E7%BD%91%E7%AB%99%2F</url>
     <content type="text"><![CDATA[简介在Wagtail中，可以通过命令wagtail start创建一个初始的网站，开始定制个性化的网站。 同时，Wagtail提供了一个示例网站The Wagtail Bakery，其包含了示例页面和模板，初步了解Wagtail时，建议使用此示例网站作为起点。 示例网站的下载和使用、配置文档见github bakerydemo。 此示例网站提供Wagtail CMS开发常用的特性和接口，并为开发CMS系统的管理编辑接口提供一定的帮助。其代码可无限制的应用于任何地方，但不建议使用此示例网站来开始搭建你的网站，它只是用来帮助了解和熟悉Wagtail的。 安装建议使用Virtualenv安装示例网站，前置环境要求如下 Python 3.4, 3.5, 3.6 or above Virtualenv VirtualenvWrapper (optional)首先创建单独的项目空间 virtualenv bakerydemo在\bakerydemo\Scripts文件夹下使用activate命令激活虚拟空间，返回虚拟根目录，创建单独的项目文件夹并clone代码 git clone https://github.com/wagtail/bakerydemo.git亦可直接通过github项目页面下载项目压缩包。 安装项目依赖 pip install -r requirements/base.txt创建数据库并导入初始数据 ./manage.py migrate ./manage.py load_initial_data ./manage.py runserver其它方式安装可参考by vagrant和by docker。]]></content>
@@ -23,17 +34,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[wagtail-1 - 背景及初始配置]]></title>
-    <url>%2F2019%2F11%2F06%2Fwagtail-1%20-%20%E8%83%8C%E6%99%AF%E5%8F%8A%E5%88%9D%E5%A7%8B%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[简介wagtail是基于django开发的cms系统，提供了一个用户管理中心和快速吸引人的界面，让编辑可以直观地创建和结构化内容。 安装pip install wagtail wagtail start mysite cd mysite python manage.py migrate python manage.py createsuperuser python manage.py runserver 初始功能访问 http://127.0.0.1:8000 即可看到wagtail首页。 注：当前首页仅为示意，后续需配置网站主题。 可通过首页右下角链接或 http://127.0.0.1:8000/admin ，输入正确的用户名密码，即可访问后台管理页面。 可通过后台管理页面操作页面的增删改查、用户的设置等相关操作。]]></content>
-      <categories>
-        <category>wagtail系列</category>
-      </categories>
-      <tags>
-        <tag>wagtail</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[virtualenv基本使用]]></title>
     <url>%2F2019%2F11%2F06%2Fvirtualenv%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%2F</url>
     <content type="text"><![CDATA[简介建立一个专属于项目的虚拟python环境，实际应用中可用virtualenv来保持一个干净的互不干扰的运行环境。 场景： 如果要同时开发多个应用程序，那这些应用程序都会共用一个Python环境，但如果应用A需要jinja 2.7，而应用B需要jinja 2.6怎么办？这种情况下，每个应用可能需要各自拥有一套“独立”的Python运行环境，virtualenv应运而生。 安装pip install virtualenv 测试是否安装成功： virtualenv --version简单使用1.创建虚拟环境 virtualenv -p c:\Python36\python.exe venv说明： -p是指定python的版本（需要带上路径）(可选)，venv就是虚拟的环境变量（目录名字）。 如不需要指定python版本，直接使用命令： virtualenv venv将使用系统默认python版本。 2.激活虚拟环境 需进入venv文件夹的script目录，执行activate命令 activate此刻起，将使用venv虚拟环境，pip安装的包也会将会放在venv文件夹中，与全局安装的Python隔绝开。 3.退出虚拟环境 使用deactivate命令即可退出当前虚拟环境 deactivate4.删除虚拟环境 只需删除对应的文件夹即可。 附注可用pip freeze查看当前安装各个包的版本信息 pip freeze同时，可使用： pip freeze &gt; requirements.txt创建一个requirements.txt文件，包含当前环境中所有包及其版本的列表。 可使用此文件帮助其他其他开发者重新创建一致的环境，以便以后安装相同版本的包环境。 pip install -r requirements.txt确保安装、部署和开发者之间的一致性。]]></content>
@@ -42,6 +42,17 @@
       </categories>
       <tags>
         <tag>virtualenv</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[wagtail-1 - 背景及初始配置]]></title>
+    <url>%2F2019%2F11%2F06%2Fwagtail-1%20-%20%E8%83%8C%E6%99%AF%E5%8F%8A%E5%88%9D%E5%A7%8B%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[简介wagtail是基于django开发的cms系统，提供了一个用户管理中心和快速吸引人的界面，让编辑可以直观地创建和结构化内容。 安装pip install wagtail wagtail start mysite cd mysite python manage.py migrate python manage.py createsuperuser python manage.py runserver 初始功能访问 http://127.0.0.1:8000 即可看到wagtail首页。 注：当前首页仅为示意，后续需配置网站主题。 可通过首页右下角链接或 http://127.0.0.1:8000/admin ，输入正确的用户名密码，即可访问后台管理页面。 可通过后台管理页面操作页面的增删改查、用户的设置等相关操作。]]></content>
+      <categories>
+        <category>wagtail系列</category>
+      </categories>
+      <tags>
+        <tag>wagtail</tag>
       </tags>
   </entry>
   <entry>
@@ -56,17 +67,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[hexo 使用初步]]></title>
-    <url>%2F2019%2F08%2F07%2Fhexo%E5%88%9D%E8%A7%81%2F</url>
-    <content type="text"><![CDATA[安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server） 主题变更将目标主题clone到/themes文件夹下 yilia $ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia modernist $ git clone https://github.com/heroicyang/hexo-theme-modernist.git themes/modernist jacman $ git clone https://github.com/cnfeat/cnfeat.git themes/jacman next $ git clone https://github.com/theme-next/hexo-theme-next 修改配置参照以下，综合添加评论的复杂度，推荐next+valine。 项目配置修改配置文件_config.yml # Site title: 鱼之乐 subtitle: 子非鱼安知鱼之乐 description: keywords: author: 鱼之乐 language: timezone: ...... # Extensions ## Plugins: https://hexo.io/plugins/ ## Themes: https://hexo.io/themes/ theme: next #指定使用的主题，主题放在/themes文件夹下 # Deployment ## Docs: https://hexo.io/docs/deployment.html deploy: type: git repo: https://github.com/hmilywb/hmilywb.github.io branch: master代码上传必要条件： 配置SSH KEY，相当于用户名密码 配置_config.yml中有关deploy的部分，已在上文项目配置搞定 安装插件hexo-deployer-git npm install hexo-deployer-git –save 正常代码上传可通过 hexo d 注： 此时可能会报错，显示 Fatal: HttpRequestException encountered.这是因为Github禁用了TLS v1.0 and v1.1这种弱加密标准，需要手动更新Windows的git凭证管理器，可从Github官方下载较新版本安装即可。 hexo 常用命令&amp;简写hexo new &quot;postName&quot; #新建文章 hexo new page &quot;pageName&quot; #新建页面 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server） hexo deploy #部署到GitHub hexo help # 查看帮助 hexo version #查看Hexo的版本缩写： hexo n == hexo new hexo g == hexo generate hexo s == hexo server hexo d == hexo deploy组合命令： hexo s -g #生成并本地预览 hexo d -g #生成并上传写博客定位到hexo根目录，执行命令： hexo new &apos;my-first-page&apos;自动在_posts下生成相关md文件my-first-page.md 这个命令的好处是帮我们自动生成了默认内容，打开这个文件即可开始写博客了，默认生成如下内容： title: postName #文章页面上的显示名称，一般是中文 date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改 categories: 默认分类 #分类 tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格 description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面菜单设置菜单包括：首页、归档、分类、标签、关于等等，默认的只有首页和归档两个，可打开主题配置文件找到Menu Settings menu: home: / || home //首页 archives: /archives/ || archive //归档 categories: /categories/ || th //分类 tags: /tags/ || tags //标签 about: /about/ || user //关于 #schedule: /schedule/ || calendar //日程表 #sitemap: /sitemap.xml || sitemap //站点地图 #commonweal: /404/ || heartbeat //公益404以archives: /archives/ || archive为例：|| 之前的/archives/表示标题“归档”，关于标题的格式可以去themes/next/languages/zh-Hans.yml中参考或修改||之后的archive表示图标，可以去Font Awesome中查看或修改，Next主题所有的图标都来自Font Awesome。 创建新的菜单页面，注意在next主题的配置文件中，categories/tags/about是关键词 hexo new page categories # or tags/about修改/source/文件夹下index.md文件，以categories为例 --- title: categories date: 2018-03-02 12:33:16 type: &quot;categories&quot; ---## Next主题样式设置 Next主题有4种风格可供选择，打开主题配置文件找到Scheme Settings # Schemes # scheme: Muse # scheme: Mist # scheme: Pisces scheme: Gemini4种风格大同小异，目前使用的是Gemini风格。 添加搜索功能安装hexo-generator-searchdb插件 npm install hexo-generator-searchdb --save打开站点配置文件找到Extensions，在下面添加 # 搜索 search: path: search.xml field: post format: html limit: 10000打开主题配置文件找到Local search，将enable设置为true 添加评论功能推荐使用valine，首先注册valine 国际版 创建一个开发版应用（免费） 在LeanCloud-设置-安全中心，把除数据存储其他选项都关闭，安全域名中添加域名 在LeanCloud-存储，添加两个class，分别为Comment和Counter，无限制 在LeanCloud-设置-应用key，获取appid和appkey，以备后用 打开主题配置文件（即next主题中的_config.yml）,找到valine的配置 valine: enable: true appid: xxxxx # Your leancloud application appid appkey: xxxxx # Your leancloud application appkeyhexo重新generate和server，最好clean一下。]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[markdown 语法初步]]></title>
     <url>%2F2019%2F08%2F07%2Fmarkdown%E8%AF%AD%E6%B3%95%E5%88%9D%E6%AD%A5%2F</url>
     <content type="text"><![CDATA[标题# 一级标题，一般一级标题下自带分割线 ## 二级标题 ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题列表有序列表-序号可随便填写，并不影响最终序列 标题1 标题2 标题3 无序列表 标题1 标题2 标题3 引用 我是引用文本1 我是嵌套的引用文本1我是嵌套的引用文本2 在嵌套一层1 在嵌套一层2 我是嵌套的引用文本3 我是引用文本2 文字的样式加粗倾斜删除线下划线 markdown原生并不支持下划线，可通过html标签实现 链接与图片baidu 表格默认的对齐方式为：左对齐方式。 列名1 列名2 列名3 列名4 值1 值1 值2 值x 值1 值1 值2 值x 值1 值1 值2 值x 关键字、代码块、换行、分割线关键字 1代码块 sdfsdfs 换行可插入一个空行，也可在本行末尾插入两个空格任意连续三个--- +++均可实现分割线]]></content>
@@ -75,6 +75,17 @@
       </categories>
       <tags>
         <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo 使用初步]]></title>
+    <url>%2F2019%2F08%2F07%2Fhexo%E5%88%9D%E8%A7%81%2F</url>
+    <content type="text"><![CDATA[安装npm install -g hexo项目初始化选择新建项目所在文件夹，执行以下命令 hexo init myhexo #初始化项目文档 cd myhexo npm install #安装依赖 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server） 主题变更将目标主题clone到/themes文件夹下 yilia $ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia modernist $ git clone https://github.com/heroicyang/hexo-theme-modernist.git themes/modernist jacman $ git clone https://github.com/cnfeat/cnfeat.git themes/jacman next $ git clone https://github.com/theme-next/hexo-theme-next 修改配置参照以下，综合添加评论的复杂度，推荐next+valine。 项目配置修改配置文件_config.yml # Site title: 鱼之乐 subtitle: 子非鱼安知鱼之乐 description: keywords: author: 鱼之乐 language: timezone: ...... # Extensions ## Plugins: https://hexo.io/plugins/ ## Themes: https://hexo.io/themes/ theme: next #指定使用的主题，主题放在/themes文件夹下 # Deployment ## Docs: https://hexo.io/docs/deployment.html deploy: type: git repo: https://github.com/hmilywb/hmilywb.github.io branch: master代码上传必要条件： 配置SSH KEY，相当于用户名密码 配置_config.yml中有关deploy的部分，已在上文项目配置搞定 安装插件hexo-deployer-git npm install hexo-deployer-git –save 正常代码上传可通过 hexo d 注： 此时可能会报错，显示 Fatal: HttpRequestException encountered.这是因为Github禁用了TLS v1.0 and v1.1这种弱加密标准，需要手动更新Windows的git凭证管理器，可从Github官方下载较新版本安装即可。 hexo 常用命令&amp;简写hexo new &quot;postName&quot; #新建文章 hexo new page &quot;pageName&quot; #新建页面 hexo generate #生成静态页面至public目录 hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server） hexo deploy #部署到GitHub hexo help # 查看帮助 hexo version #查看Hexo的版本缩写： hexo n == hexo new hexo g == hexo generate hexo s == hexo server hexo d == hexo deploy组合命令： hexo s -g #生成并本地预览 hexo d -g #生成并上传写博客定位到hexo根目录，执行命令： hexo new &apos;my-first-page&apos;自动在_posts下生成相关md文件my-first-page.md 这个命令的好处是帮我们自动生成了默认内容，打开这个文件即可开始写博客了，默认生成如下内容： title: postName #文章页面上的显示名称，一般是中文 date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改 categories: 默认分类 #分类 tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格 description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面菜单设置菜单包括：首页、归档、分类、标签、关于等等，默认的只有首页和归档两个，可打开主题配置文件找到Menu Settings menu: home: / || home //首页 archives: /archives/ || archive //归档 categories: /categories/ || th //分类 tags: /tags/ || tags //标签 about: /about/ || user //关于 #schedule: /schedule/ || calendar //日程表 #sitemap: /sitemap.xml || sitemap //站点地图 #commonweal: /404/ || heartbeat //公益404以archives: /archives/ || archive为例：|| 之前的/archives/表示标题“归档”，关于标题的格式可以去themes/next/languages/zh-Hans.yml中参考或修改||之后的archive表示图标，可以去Font Awesome中查看或修改，Next主题所有的图标都来自Font Awesome。 创建新的菜单页面，注意在next主题的配置文件中，categories/tags/about是关键词 hexo new page categories # or tags/about修改/source/文件夹下index.md文件，以categories为例 --- title: categories date: 2018-03-02 12:33:16 type: &quot;categories&quot; ---## Next主题样式设置 Next主题有4种风格可供选择，打开主题配置文件找到Scheme Settings # Schemes # scheme: Muse # scheme: Mist # scheme: Pisces scheme: Gemini4种风格大同小异，目前使用的是Gemini风格。 添加搜索功能安装hexo-generator-searchdb插件 npm install hexo-generator-searchdb --save打开站点配置文件找到Extensions，在下面添加 # 搜索 search: path: search.xml field: post format: html limit: 10000打开主题配置文件找到Local search，将enable设置为true 添加评论功能推荐使用valine，首先注册valine 国际版 创建一个开发版应用（免费） 在LeanCloud-设置-安全中心，把除数据存储其他选项都关闭，安全域名中添加域名 在LeanCloud-存储，添加两个class，分别为Comment和Counter，无限制 在LeanCloud-设置-应用key，获取appid和appkey，以备后用 打开主题配置文件（即next主题中的_config.yml）,找到valine的配置 valine: enable: true appid: xxxxx # Your leancloud application appid appkey: xxxxx # Your leancloud application appkeyhexo重新generate和server，最好clean一下。]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
