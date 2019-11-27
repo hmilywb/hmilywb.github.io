@@ -54,18 +54,18 @@
   };
 </script>
 
-  <meta name="description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+  <meta name="description" content="简介通过网上的免费代理建立自己的代理池，本文学习github上jhao104/proxy_pool项目。">
 <meta name="keywords" content="proxy pool">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IP代理池">
 <meta property="og:url" content="http://yoursite.com/2019/11/26/IP代理池/index.html">
 <meta property="og:site_name" content="鱼之乐">
-<meta property="og:description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+<meta property="og:description" content="简介通过网上的免费代理建立自己的代理池，本文学习github上jhao104/proxy_pool项目。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-26T09:22:09.157Z">
+<meta property="og:updated_time" content="2019-11-27T03:33:54.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IP代理池">
-<meta name="twitter:description" content="简介通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。 存储模块：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。 爬取模块：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。 测试模块：负责对代理池中代理的可用性进行测试">
+<meta name="twitter:description" content="简介通过网上的免费代理建立自己的代理池，本文学习github上jhao104/proxy_pool项目。">
   <link rel="canonical" href="http://yoursite.com/2019/11/26/IP代理池/">
 
 
@@ -261,11 +261,19 @@
                 
               
 
-              <time title="创建时间：2019-11-26 11:31:21 / 修改时间：17:22:09" itemprop="dateCreated datePublished" datetime="2019-11-26T11:31:21+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-26 11:31:21" itemprop="dateCreated datePublished" datetime="2019-11-26T11:31:21+08:00">2019-11-26</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-27 11:33:54" itemprop="dateModified" datetime="2019-11-27T11:33:54+08:00">2019-11-27</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -309,11 +317,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>通过网上的免费代理建立自己的代理池，而要搭建一个代理池，需要四个模块：存储模块、爬取模块、测试模块和接口模块。</p>
-<p><strong>存储模块</strong>：负责存储爬取下来的代理，使用Redis数据库的SortedSet（有序集合）进行存储，确保代理无重复，并对代理是否可用进行标记。</p>
-<p><strong>爬取模块</strong>：负责基于提供免费代理的网站进行爬取，代理的形式是IP+端口，爬取下来之后保存到数据库里。</p>
-<p><strong>测试模块</strong>：负责对代理池中代理的可用性进行测试，设置一个测试URL，然后使用代理去请求，根据响应的状态码判断代理是否可用。</p>
-<p><strong>接口模块</strong>：提供给爬虫一个接口，返回代理池的接口功能。</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>通过网上的免费代理建立自己的代理池，本文学习github上<a href="https://github.com/jhao104/proxy_pool" target="_blank" rel="noopener">jhao104/proxy_pool</a>项目。</p>
 <a id="more"></a>
 
 <h2 id="下载-amp-安装"><a href="#下载-amp-安装" class="headerlink" title="下载&amp;安装"></a>下载&amp;安装</h2><p>Redis：<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">下载地址</a>，可直接下载Windows安装文件，安装时选择注册系统服务，简单方便。</p>
@@ -482,6 +486,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+              <a href="/2019/11/27/IP代理池-2/" rel="prev" title="IP代理池-2">
+                IP代理池-2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
     </footer>
@@ -539,7 +547,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
